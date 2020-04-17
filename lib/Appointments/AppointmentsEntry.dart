@@ -24,13 +24,19 @@ class AppointmentsEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    if (appointmentsModel.entityBeingEdited != null) {
+      _titleController.text = appointmentsModel.entityBeingEdited.title;
+      _descriptionController.text = appointmentsModel.entityBeingEdited.description;
+    }
+
     return ScopedModel<AppointmentsModel>(
       model: appointmentsModel,
       child: ScopedModelDescendant<AppointmentsModel>(
         builder: (BuildContext context, Widget child, AppointmentsModel inModel) {
           return Scaffold(
             bottomNavigationBar: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
               child: Row(
                 children: <Widget>[
                   FlatButton(
@@ -73,7 +79,7 @@ class AppointmentsEntry extends StatelessWidget {
                     leading: Icon(Icons.description),
                     title: TextFormField(
                       keyboardType: TextInputType.multiline,
-                      minLines: 4,
+                      maxLines: 4,
                       decoration: InputDecoration(hintText: "Description"),
                       controller: _descriptionController,
                     ),

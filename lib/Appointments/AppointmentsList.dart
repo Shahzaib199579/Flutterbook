@@ -101,7 +101,7 @@ class AppointmentsList extends StatelessWidget {
                                   itemBuilder: (BuildContext inBuildContext, int index) {
                                 Appointment appointment = appointmentsModel.entityList[index];
 
-                                if (appointment.apptDate != "${date.year},${date.month},${date.day}") {
+                                if (appointment.apptDate != "${date.year}, ${date.month}, ${date.day}") {
                                   return Container(height: 0);
                                 }
 
