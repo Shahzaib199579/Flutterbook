@@ -65,8 +65,7 @@ class FlutterBook extends StatelessWidget {
           ),
           body: TabBarView(
             children: <Widget>[
-              //Appointments(),
-              Text("Appointments"),
+              Appointments(),
               Text("Contacts"),
               //Contacts(),
               Notes(),
