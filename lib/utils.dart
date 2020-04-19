@@ -7,16 +7,13 @@ import 'BaseModel.dart';
 
 Directory docsDir;
 
-Future selectDate( BuildContext context,
-    BaseModel inModel,
-    String dateString) async {
+Future selectDate(
+    BuildContext context, BaseModel inModel, String dateString) async {
   DateTime initialDateTime = DateTime.now();
 
   if (dateString != null) {
     List dateParts = dateString.split(",");
-    initialDateTime = DateTime(
-        int.parse(dateParts[0]),
-        int.parse(dateParts[1]),
+    initialDateTime = DateTime(int.parse(dateParts[0]), int.parse(dateParts[1]),
         int.parse(dateParts[2]));
   }
 

@@ -7,7 +7,6 @@ import 'package:scoped_model/scoped_model.dart';
 import '../utils.dart' as utils;
 
 class AppointmentsEntry extends StatelessWidget {
-
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -18,22 +17,24 @@ class AppointmentsEntry extends StatelessWidget {
     });
 
     _descriptionController.addListener(() {
-      appointmentsModel.entityBeingEdited.description = _descriptionController.text;
+      appointmentsModel.entityBeingEdited.description =
+          _descriptionController.text;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     if (appointmentsModel.entityBeingEdited != null) {
       _titleController.text = appointmentsModel.entityBeingEdited.title;
-      _descriptionController.text = appointmentsModel.entityBeingEdited.description;
+      _descriptionController.text =
+          appointmentsModel.entityBeingEdited.description;
     }
 
     return ScopedModel<AppointmentsModel>(
       model: appointmentsModel,
       child: ScopedModelDescendant<AppointmentsModel>(
-        builder: (BuildContext context, Widget child, AppointmentsModel inModel) {
+        builder:
+            (BuildContext context, Widget child, AppointmentsModel inModel) {
           return Scaffold(
             bottomNavigationBar: Padding(
               padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -58,77 +59,77 @@ class AppointmentsEntry extends StatelessWidget {
               ),
             ),
             body: Form(
-              key: _formKey,
-              child: ListView(
-                children: <Widget>[
-                  ListTile(
-                    leading: Icon(Icons.subject),
-                    title: TextFormField(
-                      decoration: InputDecoration(hintText: "Title"),
-                      controller: _titleController,
-                      validator: (String inValue) {
-                        if (inValue.length == 0) {
-                          return "Please enter a title";
-                        }
+                key: _formKey,
+                child: ListView(
+                  children: <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.subject),
+                      title: TextFormField(
+                        decoration: InputDecoration(hintText: "Title"),
+                        controller: _titleController,
+                        validator: (String inValue) {
+                          if (inValue.length == 0) {
+                            return "Please enter a title";
+                          }
 
-                        return null;
-                      },
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.description),
-                    title: TextFormField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 4,
-                      decoration: InputDecoration(hintText: "Description"),
-                      controller: _descriptionController,
+                    ListTile(
+                      leading: Icon(Icons.description),
+                      title: TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 4,
+                        decoration: InputDecoration(hintText: "Description"),
+                        controller: _descriptionController,
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.today),
-                    title: Text("Date"),
-                    subtitle: Text(appointmentsModel.chosenDate == null ? "" : appointmentsModel.chosenDate),
-                    trailing: IconButton(
-                      icon: Icon(Icons.edit),
-                      color: Colors.blue,
-                      onPressed: () async {
+                    ListTile(
+                      leading: Icon(Icons.today),
+                      title: Text("Date"),
+                      subtitle: Text(appointmentsModel.chosenDate == null
+                          ? ""
+                          : appointmentsModel.chosenDate),
+                      trailing: IconButton(
+                        icon: Icon(Icons.edit),
+                        color: Colors.blue,
+                        onPressed: () async {
+                          String chosenDate = await utils.selectDate(
+                              context,
+                              appointmentsModel,
+                              appointmentsModel.entityBeingEdited.apptDate);
 
-                        String chosenDate = await utils.selectDate(context,
-                                                                  appointmentsModel,
-                                                              appointmentsModel.entityBeingEdited.apptDate);
-
-                        if (chosenDate != null) {
-                          appointmentsModel.setChosenDate(chosenDate);
-                        }
-                      },
+                          if (chosenDate != null) {
+                            appointmentsModel.entityBeingEdited.apptDate =
+                                chosenDate;
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.alarm),
-                    title: Text("Time"),
-                    subtitle: Text(appointmentsModel.apptTime == null ? "" :
-                                                        appointmentsModel.apptTime),
-                    trailing: IconButton(
-                      icon: Icon(Icons.edit),
-                      color: Colors.blue,
-                      onPressed: () async {
-
-                        await _selectedTime(context);
-                      },
-                    ),
-                  )
-                ],
-              )
-            ),
+                    ListTile(
+                      leading: Icon(Icons.alarm),
+                      title: Text("Time"),
+                      subtitle: Text(appointmentsModel.apptTime == null
+                          ? ""
+                          : appointmentsModel.apptTime),
+                      trailing: IconButton(
+                        icon: Icon(Icons.edit),
+                        color: Colors.blue,
+                        onPressed: () async {
+                          await _selectedTime(context);
+                        },
+                      ),
+                    )
+                  ],
+                )),
           );
         },
       ),
     );
   }
 
-
   Future _selectedTime(BuildContext context) async {
-
     TimeOfDay initialTime = TimeOfDay.now();
 
     if (appointmentsModel.entityBeingEdited.apptTime != null) {
@@ -137,10 +138,12 @@ class AppointmentsEntry extends StatelessWidget {
       initialTime = TimeOfDay(hour: timeParts[0], minute: timeParts[1]);
     }
 
-    var picked = await showTimePicker(context: context, initialTime: initialTime);
+    var picked =
+        await showTimePicker(context: context, initialTime: initialTime);
 
     if (picked != null) {
-      appointmentsModel.entityBeingEdited.apptTime = "${picked.hour},${picked.minute}";
+      appointmentsModel.entityBeingEdited.apptTime =
+          "${picked.hour},${picked.minute}";
       appointmentsModel.setApptTime(picked.format(context));
     }
   }
@@ -160,12 +163,10 @@ class AppointmentsEntry extends StatelessWidget {
 
     model.setStackIndex(0);
 
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.green,
-        content: Text("Appointment Saved"),
-      )
-    );
+    Scaffold.of(context).showSnackBar(SnackBar(
+      duration: Duration(seconds: 2),
+      backgroundColor: Colors.green,
+      content: Text("Appointment Saved"),
+    ));
   }
 }

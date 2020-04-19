@@ -6,7 +6,9 @@ import 'AppointmentsEntry.dart';
 import 'AppointmentsModel.dart' show AppointmentsModel, appointmentsModel;
 
 class Appointments extends StatelessWidget {
-
+  Appointments() {
+    appointmentsModel.loadData("appointments", AppointmentsDBWorker.db);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +18,10 @@ class Appointments extends StatelessWidget {
         builder: (BuildContext context, Widget child, AppointmentsModel appt) {
           return IndexedStack(
             index: appt.stackIndex,
-            children: <Widget>[
-              AppointmentsList(),
-              AppointmentsEntry()
-            ],
+            children: <Widget>[AppointmentsList(), AppointmentsEntry()],
           );
         },
       ),
     );
   }
-
 }

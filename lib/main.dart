@@ -13,10 +13,11 @@ void main() {
     Directory docsDir;
     try {
       WidgetsFlutterBinding.ensureInitialized();
-      PermissionStatus permissionResult = await
-                SimplePermissions.requestPermission(Permission. WriteExternalStorage);
+      PermissionStatus permissionResult =
+          await SimplePermissions.requestPermission(
+              Permission.WriteExternalStorage);
 
-      if (permissionResult == PermissionStatus.authorized){
+      if (permissionResult == PermissionStatus.authorized) {
         docsDir = await getApplicationDocumentsDirectory();
       } else {
         throw Exception("Error");
@@ -33,7 +34,6 @@ void main() {
 }
 
 class FlutterBook extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -64,17 +64,10 @@ class FlutterBook extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: <Widget>[
-              Appointments(),
-              Text("Contacts"),
-              //Contacts(),
-              Notes(),
-              Tasks()
-            ],
+            children: <Widget>[Appointments(), Contacts(), Notes(), Tasks()],
           ),
         ),
       ),
     );
   }
-
 }
